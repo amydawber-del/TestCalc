@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding Calculator</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; background: #fff;">
+    <div style="width: 1080px; height: 600px; margin: 0 auto;">
+        <div style="display: flex; gap: 20px; padding: 16px 20px; height: 600px;">
+            <!-- Left Column -->
+            <div style="flex: 0 0 520px; overflow-y: auto;">
+                <div style="background: #fff; border-radius: 6px; padding: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); border: 1px solid #e5e5e5;">
+                    
+                    <div style="background: #fde8eb; border-left: 2px solid #f9b4bc; padding: 8px; border-radius: 3px; margin-bottom: 10px; font-size: 9px; line-height: 1.3;">
+                        <div style="font-weight: 600; color: #19191e; margin-bottom: 2px;">Important Note</div>
+                        <div>This estimate does not include tenancy loading time. Load tenancies before starting accounting onboarding.</div>
+                    </div>
+
+                    <div style="margin-bottom: 10px;">
+                        <label style="display: block; font-size: 10px; font-weight: 600; color: #19191e; margin-bottom: 4px;">Number of Managed Tenancies</label>
+                        <input type="number" id="calcPropertyCount" placeholder="e.g., 100" min="1" style="width: 100%; padding: 7px 9px; font-size: 10px; border: 1px solid #ccc; border-radius: 3px; font-family: Arial, Helvetica, sans-serif; background: #fff; color: #19191e; box-sizing: border-box;">
+                    </div>
+
+                    <div style="margin-bottom: 10px;">
+                        <label style="display: block; font-size: 10px; font-weight: 600; color: #19191e; margin-bottom: 4px;">Front-End Go-Live Date (Optional)</label>
+                        <p style="font-size: 9px; color: #777989; margin: 0 0 5px 0; line-height: 1.3;">Accounting go-live will be 2 weeks after this date.</p>
+                        <input type="date" id="calcFrontEndGoLive" style="width: 100%; padding: 7px 9px; font-size: 10px; border: 1px solid #ccc; border-radius: 3px; font-family: Arial, Helvetica, sans-serif; background: #fff; color: #19191e; box-sizing: border-box;">
+                    </div>
+
+                    <button id="calcButton" style="width: 100%; padding: 9px; background: #2147f4; color: #fff; border: none; border-radius: 3px; font-size: 11px; font-weight: 600; cursor: pointer; margin-top: 8px; font-family: Arial, Helvetica, sans-serif;">Calculate Timeline</button>
+
+                    <div id="calcGeneralGuidance" style="background: #f5ede5; border-left: 2px solid #527dff; padding: 10px; border-radius: 3px; margin-top: 10px;">
+                        <div style="font-size: 11px; font-weight: 600; color: #19191e; margin-bottom: 6px;">General Guidance</div>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="padding: 3px 0; padding-left: 14px; position: relative; color: #4c4d57; font-size: 9px; line-height: 1.3;"><span style="position: absolute; left: 0; color: #527dff; font-weight: 700;">→</span> <strong>~100 properties:</strong> typically 1-2 weeks</li>
+                            <li style="padding: 3px 0; padding-left: 14px; position: relative; color: #4c4d57; font-size: 9px; line-height: 1.3;"><span style="position: absolute; left: 0; color: #527dff; font-weight: 700;">→</span> <strong>500-1,000+ properties:</strong> several weeks</li>
+                            <li style="padding: 3px 0; padding-left: 14px; position: relative; color: #4c4d57; font-size: 9px; line-height: 1.3;"><span style="position: absolute; left: 0; color: #527dff; font-weight: 700;">→</span> <strong>Recommended:</strong> allow a full rent cycle</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div style="flex: 0 0 540px; overflow-y: auto;">
+                <div id="calcResults" style="display: none;">
+                    <div style="background: linear-gradient(135deg, #527dff 0%, #7a9cff 100%); padding: 12px; border-radius: 3px; color: #fff; text-align: center; margin-bottom: 10px;">
+                        <div style="font-size: 8px; font-weight: 600; opacity: 0.85; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px;">Suggested Go-Live Date</div>
+                        <div id="calcGoLiveDate" style="font-size: 14px; font-weight: 700; margin-bottom: 3px; line-height: 1.2;">-</div>
+                        <div id="calcGoLiveDescription" style="font-size: 8px; opacity: 0.85; margin-bottom: 8px; line-height: 1.3;">Based on starting today</div>
+                        <a href="https://info.street.co.uk/meetings/amy-dawber/street-accounting-opening-balances-suspense-account-setup" target="_blank" style="display: inline-block; padding: 6px 14px; background: #fff; color: #2147f4; text-decoration: none; border-radius: 3px; font-weight: 600; font-size: 9px;">Book Opening Balance Call</a>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 10px;">
+                        <div style="background: linear-gradient(135deg, #f1c238 0%, #f6be9d 100%); padding: 10px; border-radius: 3px; color: #19191e;">
+                            <div style="font-size: 7px; font-weight: 600; opacity: 0.85; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.3px;">Recommended Timeline</div>
+                            <div id="calcRecommendedDays" style="font-size: 18px; font-weight: 700; margin-bottom: 2px; line-height: 1.1;">-</div>
+                            <div style="font-size: 8px; opacity: 0.8; line-height: 1.2;">days total</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #2147f4 0%, #527dff 100%); padding: 10px; border-radius: 3px; color: #fff;">
+                            <div style="font-size: 7px; font-weight: 600; opacity: 0.85; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.3px;">Setup Time</div>
+                            <div id="calcTotalHours" style="font-size: 18px; font-weight: 700; margin-bottom: 2px; line-height: 1.1;">-</div>
+                            <div style="font-size: 8px; opacity: 0.8; line-height: 1.2;">hours required</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #beffd8 0%, #bde4b9 100%); padding: 10px; border-radius: 3px; color: #19191e;">
+                            <div style="font-size: 7px; font-weight: 600; opacity: 0.85; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.3px;">Working Days</div>
+                            <div id="calcWorkingDays" style="font-size: 18px; font-weight: 700; margin-bottom: 2px; line-height: 1.1;">-</div>
+                            <div style="font-size: 8px; opacity: 0.8; line-height: 1.2;">8-hour days</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #7a9cff 0%, #a3baff 100%); padding: 10px; border-radius: 3px; color: #19191e;">
+                            <div style="font-size: 7px; font-weight: 600; opacity: 0.85; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.3px;">Training Period</div>
+                            <div style="font-size: 18px; font-weight: 700; margin-bottom: 2px; line-height: 1.1;">14</div>
+                            <div style="font-size: 8px; opacity: 0.8; line-height: 1.2;">days in demo</div>
+                        </div>
+                    </div>
+
+                    <div style="padding: 10px; background: #fde8eb; border-radius: 3px; border: 1px solid #f9b4bc;">
+                        <div style="font-size: 11px; font-weight: 600; color: #19191e; margin-bottom: 6px; display: flex; align-items: center; gap: 4px;">
+                            <span>📊</span>
+                            <span>Your Breakdown</span>
+                        </div>
+                        <div id="calcBreakdownText" style="color: #4c4d57; line-height: 1.4; font-size: 9px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            function calculateTime() {
+                var propertyCount = parseInt(document.getElementById('calcPropertyCount').value);
+                
+                if (!propertyCount || propertyCount < 1) {
+                    alert('Please enter a valid number of properties');
+                    return;
+                }
+
+                var MINUTES_PER_PROPERTY = 20;
+                var HOURS_PER_DAY = 8;
+                var TRAINING_DAYS = 14;
+                
+                var totalMinutes = propertyCount * MINUTES_PER_PROPERTY;
+                var totalHours = Math.round(totalMinutes / 60);
+                var workingDays = Math.round(totalHours / HOURS_PER_DAY);
+                var bufferDays = 7;
+                var recommendedDays = workingDays + TRAINING_DAYS + bufferDays;
+
+                var standardGoLiveDate = addBusinessDays(new Date(), recommendedDays);
+                
+                var frontEndInput = document.getElementById('calcFrontEndGoLive').value;
+                var finalGoLiveDate = standardGoLiveDate;
+                var usingFrontEndDate = false;
+                
+                if (frontEndInput) {
+                    var frontEndDate = new Date(frontEndInput + 'T00:00:00');
+                    var today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    
+                    if (frontEndDate >= today) {
+                        var accountingGoLive = addBusinessDays(frontEndDate, 10);
+                        
+                        if (accountingGoLive > standardGoLiveDate) {
+                            finalGoLiveDate = accountingGoLive;
+                            usingFrontEndDate = true;
+                        }
+                    }
+                }
+                
+                var formattedDate = formatDate(finalGoLiveDate);
+
+                document.getElementById('calcTotalHours').textContent = totalHours;
+                document.getElementById('calcWorkingDays').textContent = workingDays;
+                document.getElementById('calcRecommendedDays').textContent = recommendedDays;
+                document.getElementById('calcGoLiveDate').textContent = formattedDate;
+
+                var goLiveDesc = document.getElementById('calcGoLiveDescription');
+                if (usingFrontEndDate) {
+                    goLiveDesc.textContent = '2 weeks after front-end go-live';
+                } else {
+                    goLiveDesc.textContent = 'Based on starting today';
+                }
+
+                var sizeCategory = '';
+                var timelineAdvice = '';
+                
+                if (propertyCount <= 150) {
+                    sizeCategory = 'small to medium';
+                    timelineAdvice = 'most agents complete setup in 1-2 weeks (plus training)';
+                } else if (propertyCount <= 500) {
+                    sizeCategory = 'medium to large';
+                    timelineAdvice = 'most agents complete setup in 2-4 weeks (plus training)';
+                } else {
+                    sizeCategory = 'large';
+                    timelineAdvice = 'most agents need several weeks to a month (plus training)';
+                }
+
+                var breakdownText = '<strong>' + propertyCount + ' tenancies</strong> × <strong>' + MINUTES_PER_PROPERTY + ' min</strong> = <strong>' + totalHours + ' hours</strong> (~<strong>' + workingDays + ' working days</strong>).<br><br>As a <strong>' + sizeCategory + ' agent</strong>, you\'ll need <strong>14 days training</strong> in demo. With daily workload, we suggest <strong>' + recommendedDays + ' working days total</strong>.<br><br>' + timelineAdvice;
+                
+                if (usingFrontEndDate) {
+                    breakdownText += '<br><br><strong>Note:</strong> Accounting go-live scheduled 2 weeks after front-end date.';
+                }
+
+                document.getElementById('calcBreakdownText').innerHTML = breakdownText;
+                document.getElementById('calcGeneralGuidance').style.display = 'none';
+                document.getElementById('calcResults').style.display = 'block';
+            }
+
+            function addBusinessDays(date, days) {
+                var currentDate = new Date(date);
+                var addedDays = 0;
+                
+                while (addedDays < days) {
+                    currentDate.setDate(currentDate.getDate() + 1);
+                    if (currentDate.getDay() !== 0 && currentDate.getDay() !== 6) {
+                        addedDays++;
+                    }
+                }
+                
+                return currentDate;
+            }
+
+            function formatDate(date) {
+                var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                
+                var dayName = days[date.getDay()];
+                var day = date.getDate();
+                var month = months[date.getMonth()];
+                var year = date.getFullYear();
+                
+                function suffix(d) {
+                    if (d > 3 && d < 21) return 'th';
+                    switch (d % 10) {
+                        case 1: return 'st';
+                        case 2: return 'nd';
+                        case 3: return 'rd';
+                        default: return 'th';
+                    }
+                }
+                
+                return dayName + ', ' + day + suffix(day) + ' ' + month + ' ' + year;
+            }
+
+            document.getElementById('calcButton').addEventListener('click', calculateTime);
+            
+            document.getElementById('calcPropertyCount').addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    calculateTime();
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
