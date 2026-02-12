@@ -1,0 +1,141 @@
+# Accounting Onboarding Calculator
+
+A lightweight, embeddable calculator for estimating accounting onboarding timelines. Designed specifically for property management companies transitioning to new accounting systems.
+
+![Calculator Preview](https://via.placeholder.com/1080x600/2147f4/ffffff?text=Onboarding+Calculator)
+
+## Features
+
+- 📊 **Timeline Estimation** - Calculates setup time based on property count
+- 📅 **Go-Live Date Calculator** - Suggests optimal go-live dates
+- 💼 **Business Day Calculations** - Excludes weekends automatically
+- 🎨 **Modern UI** - Clean, professional design with gradient cards
+- 📱 **Responsive Layout** - Optimized for 1080px × 600px display
+- 🔧 **Zero Dependencies** - Pure HTML, CSS, and vanilla JavaScript
+
+## Quick Start
+
+### Option 1: Direct Download
+1. Download `index.html` from this repository
+2. Open in any web browser
+3. No installation or build process required
+
+### Option 2: GitHub Pages
+1. Fork this repository
+2. Go to Settings → Pages
+3. Select `main` branch as source
+4. Your calculator will be available at `https://yourusername.github.io/accounting-onboarding-calculator/`
+
+### Option 3: Embed in iframe
+```html
+<iframe src="path/to/index.html" width="1080" height="600" frameborder="0"></iframe>
+```
+
+## Usage
+
+1. **Enter number of managed tenancies** - Input your total property count
+2. **Set front-end go-live date** (Optional) - Calculator adds 2 weeks for accounting
+3. **Click "Calculate Timeline"** - View your customized onboarding schedule
+
+### Calculation Logic
+
+- **Base calculation**: 20 minutes per property
+- **Training period**: 14 business days in demo account
+- **Buffer time**: 7 additional days for daily workload
+- **Business days only**: Automatically excludes weekends
+
+## Customization
+
+### Adjust Time Per Property
+Edit line 109 in `index.html`:
+```javascript
+var MINUTES_PER_PROPERTY = 20; // Change this value
+```
+
+### Modify Colors
+All colors use inline styles. Search and replace hex codes:
+- Primary Blue: `#2147f4`
+- Secondary Blue: `#527dff`
+- Success Green: `#beffd8`
+- Warning Yellow: `#f1c238`
+
+### Change Training Days
+Edit line 111 in `index.html`:
+```javascript
+var TRAINING_DAYS = 14; // Change this value
+```
+
+## Browser Support
+
+- ✅ Chrome/Edge (latest)
+- ✅ Firefox (latest)
+- ✅ Safari (latest)
+- ✅ Mobile browsers
+
+## File Structure
+
+```
+accounting-onboarding-calculator/
+├── index.html          # Main calculator file
+├── README.md           # This file
+├── LICENSE             # MIT License
+└── .gitignore          # Git ignore rules
+```
+
+## Integration Examples
+
+### Rocketlane Customer Portal
+```html
+<iframe src="https://your-domain.com/calculator.html" 
+        width="1080" 
+        height="600" 
+        frameborder="0"
+        style="border: none;">
+</iframe>
+```
+
+### WordPress
+Use a custom HTML block and paste the iframe code above.
+
+### Notion
+Embed using the `/embed` command with your hosted calculator URL.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+### Development
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+If you encounter any issues or have questions:
+- 🐛 [Open an issue](https://github.com/yourusername/accounting-onboarding-calculator/issues)
+- 📧 Contact: your-email@example.com
+
+## Changelog
+
+### Version 1.0.0 (2024)
+- Initial release
+- Core calculation functionality
+- Responsive 1080×600 layout
+- Business day calculator
+- Optional go-live date input
+
+## Acknowledgments
+
+- Built for property management companies
+- Designed for Rocketlane customer portal integration
+- Inspired by real-world onboarding workflows
+
+---
+
+**Made with ❤️ for efficient onboarding**
