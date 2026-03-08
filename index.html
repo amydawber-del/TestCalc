@@ -1,215 +1,499 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Onboarding Calculator</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accounting Onboarding Calculator | Street</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --navy:#12152A;
+  --purple:#5B4BE7;
+  --purple-hover:#4a3ccc;
+  --purple-light:#EEF0FF;
+  --purple-mid:#C5C0F8;
+  --border:#E8EAF0;
+  --text-primary:#12152A;
+  --text-secondary:#555B7A;
+  --text-muted:#8890AE;
+  --white:#ffffff;
+  --amber:#F59E0B;
+  --amber-bg:#FEF3C7;
+  --shadow-sm:0 1px 3px rgba(18,21,42,0.06),0 1px 2px rgba(18,21,42,0.04);
+  --shadow-md:0 4px 12px rgba(18,21,42,0.08),0 2px 4px rgba(18,21,42,0.04);
+  --shadow-lg:0 12px 32px rgba(18,21,42,0.12),0 4px 8px rgba(18,21,42,0.06);
+  --radius:10px;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'DM Sans',sans-serif;
+  font-size:13px;
+  line-height:1.55;
+  color:var(--text-primary);
+  background:#F5F6FA;
+  min-height:100vh;
+  /* Tight for 600px embed */
+  max-width:600px;
+  margin:0 auto;
+}
+
+/* ── NAV ── */
+nav{
+  background:var(--navy);
+  padding:0 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:52px;
+  box-shadow:0 2px 12px rgba(18,21,42,0.25);
+}
+.nav-logo img{height:22px;filter:brightness(0) invert(1)}
+.nav-badge{
+  font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;
+  color:var(--purple-mid);background:rgba(91,75,231,0.18);
+  padding:3px 10px;border-radius:20px;border:1px solid rgba(91,75,231,0.3);
+}
+
+/* ── LAYOUT ── */
+.page{padding:20px 14px 40px}
+
+/* ── HERO ── */
+.hero{text-align:center;margin-bottom:20px}
+.hero-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--purple-light);border:1px solid var(--purple-mid);
+  color:var(--purple);font-size:10px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;
+  padding:4px 12px;border-radius:20px;margin-bottom:12px;
+}
+.hero-chip svg{width:11px;height:11px}
+h1{font-size:20px;font-weight:700;color:var(--navy);line-height:1.25;margin-bottom:8px}
+.hero-sub{font-size:12px;color:var(--text-secondary);max-width:480px;margin:0 auto;font-weight:400}
+
+/* ── CARD ── */
+.card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--radius);box-shadow:var(--shadow-sm);margin-bottom:12px;
+}
+.card-header{
+  padding:13px 16px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+}
+.card-icon{
+  width:30px;height:30px;border-radius:7px;
+  background:var(--purple-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.card-icon svg{width:15px;height:15px;color:var(--purple)}
+.card-title{font-size:13px;font-weight:600;color:var(--navy)}
+.card-sub{font-size:11px;color:var(--text-muted);margin-top:1px}
+.card-body{padding:16px}
+
+/* ── INPUTS ── */
+.input-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.input-grid.single{grid-template-columns:1fr}
+.field{display:flex;flex-direction:column;gap:5px}
+.field-label{font-size:11px;font-weight:600;color:var(--text-primary);letter-spacing:.2px}
+.field-hint{font-size:11px;color:var(--text-muted);margin-top:-2px;line-height:1.4}
+.input-wrap{position:relative}
+.unit-prefix,.unit-suffix{
+  position:absolute;top:50%;transform:translateY(-50%);
+  font-size:12px;font-weight:500;color:var(--text-muted);pointer-events:none;
+}
+.unit-prefix{left:10px}
+.unit-suffix{right:10px}
+
+input[type=number],input[type=date]{
+  width:100%;padding:9px 12px;
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:400;
+  color:var(--text-primary);background:var(--white);
+  border:1px solid var(--border);border-radius:8px;outline:none;
+  transition:border-color .15s,box-shadow .15s;
+  -moz-appearance:textfield;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+input:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(91,75,231,0.12)}
+.has-prefix input{padding-left:32px}
+.has-suffix input{padding-right:42px}
+
+/* ── NOTE ── */
+.note-box{
+  display:flex;gap:9px;background:var(--amber-bg);
+  border:1px solid #F6D860;border-radius:8px;padding:10px 13px;margin-bottom:16px;
+}
+.note-box svg{width:14px;height:14px;color:var(--amber);flex-shrink:0;margin-top:2px}
+.note-box p{font-size:12px;color:#92540A;line-height:1.45}
+.note-box strong{font-weight:600}
+
+/* ── CTA ── */
+.cta-row{display:flex;justify-content:center;margin-top:4px;margin-bottom:2px}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--purple);color:var(--white);border:none;border-radius:8px;
+  padding:11px 28px;width:100%;justify-content:center;
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;
+  cursor:pointer;transition:background .15s,transform .15s,box-shadow .15s;
+  box-shadow:0 4px 12px rgba(91,75,231,0.3);
+}
+.btn-primary:hover{background:var(--purple-hover);transform:translateY(-1px);box-shadow:0 6px 20px rgba(91,75,231,0.4)}
+.btn-primary:active{transform:translateY(0)}
+.btn-primary svg{width:14px;height:14px}
+
+/* ── DIVIDER ── */
+.divider{height:1px;background:var(--border);margin:18px 0}
+
+/* ── RESULTS ── */
+#results{display:none;animation:fadeUp .3s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── BREAKDOWN ── */
+.breakdown-card{
+  background:var(--purple-light);border:1px solid var(--purple-mid);
+  border-radius:var(--radius);padding:14px 16px;margin-bottom:12px;
+}
+.breakdown-title{font-size:12px;font-weight:700;color:var(--purple);margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.breakdown-body{font-size:12px;color:var(--text-secondary);line-height:1.6}
+.breakdown-body strong{color:var(--text-primary);font-weight:600}
+
+/* ── TIMELINE STEPS ── */
+.timeline{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-radius:var(--radius);border:1px solid var(--border);
+  overflow:hidden;box-shadow:var(--shadow-sm);margin-bottom:12px;
+}
+.step{
+  padding:12px 10px;background:var(--white);
+  border-right:1px solid var(--border);text-align:center;
+}
+.step:last-child{border-right:none}
+.step-num{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--purple-light);color:var(--purple);
+  font-size:10px;font-weight:700;margin-bottom:5px;
+}
+.step-label{font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px}
+.step-val{font-size:12px;font-weight:700;color:var(--navy)}
+
+/* ── KPI GRID ── */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.kpi{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--radius);padding:14px 13px;box-shadow:var(--shadow-sm);
+}
+.kpi-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--text-muted);margin-bottom:5px}
+.kpi-value{font-size:24px;font-weight:700;line-height:1;color:var(--navy);margin-bottom:3px}
+.kpi-desc{font-size:11px;color:var(--text-muted)}
+.kpi.accent{background:var(--purple);border-color:var(--purple)}
+.kpi.accent .kpi-label,.kpi.accent .kpi-desc{color:rgba(255,255,255,0.8)}
+.kpi.accent .kpi-value{color:var(--white)}
+
+/* ── GO LIVE ── */
+.go-live{
+  background:linear-gradient(135deg,var(--navy) 0%,#1E2450 100%);
+  border-radius:var(--radius);padding:20px 18px;
+  box-shadow:var(--shadow-lg);
+}
+.go-live-chip{font-size:10px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:var(--purple-mid);margin-bottom:6px}
+.go-live-date{font-size:18px;font-weight:700;color:var(--white);margin-bottom:4px;line-height:1.25}
+.go-live-note{font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:16px}
+.btn-book{
+  display:flex;align-items:center;justify-content:center;gap:7px;width:100%;
+  background:var(--purple);color:var(--white);border:none;border-radius:8px;
+  padding:11px 18px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;
+  cursor:pointer;text-decoration:none;
+  transition:background .15s,transform .15s,box-shadow .15s;
+  box-shadow:0 4px 16px rgba(91,75,231,0.5);
+}
+.btn-book:hover{background:#4a3ccc;transform:translateY(-1px);box-shadow:0 6px 20px rgba(91,75,231,0.6)}
+.btn-book svg{width:14px;height:14px}
+
+/* ── OPTIONAL ── */
+.optional-chip{
+  display:inline-block;font-size:9px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;
+  color:var(--purple);background:var(--purple-light);border:1px solid var(--purple-mid);
+  border-radius:4px;padding:2px 6px;margin-left:6px;vertical-align:middle;
+}
+</style>
 </head>
-<body style="margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; background: #fff;">
-    <div style="width: 1080px; height: 600px; margin: 0 auto;">
-        <div style="display: flex; gap: 20px; padding: 16px 20px; height: 600px;">
-            <!-- Left Column -->
-            <div style="flex: 0 0 520px; overflow-y: auto;">
-                <div style="background: #fff; border-radius: 6px; padding: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); border: 1px solid #e5e5e5;">
-                    
-                    <div style="background: #fde8eb; border-left: 2px solid #f9b4bc; padding: 8px; border-radius: 3px; margin-bottom: 10px; font-size: 9px; line-height: 1.3;">
-                        <div style="font-weight: 600; color: #19191e; margin-bottom: 2px;">Important Note</div>
-                        <div>This estimate does not include tenancy loading time. Load tenancies before starting accounting onboarding.</div>
-                    </div>
+<body>
 
-                    <div style="margin-bottom: 10px;">
-                        <label style="display: block; font-size: 10px; font-weight: 600; color: #19191e; margin-bottom: 4px;">Number of Managed Tenancies</label>
-                        <input type="number" id="calcPropertyCount" placeholder="e.g., 100" min="1" style="width: 100%; padding: 7px 9px; font-size: 10px; border: 1px solid #ccc; border-radius: 3px; font-family: Arial, Helvetica, sans-serif; background: #fff; color: #19191e; box-sizing: border-box;">
-                    </div>
+<nav>
+  <div class="nav-logo">
+    <img src="data:image/jpeg;base64,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AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//Z" alt="Street">
+  </div>
+  <div class="nav-badge">Onboarding Tools</div>
+</nav>
 
-                    <div style="margin-bottom: 10px;">
-                        <label style="display: block; font-size: 10px; font-weight: 600; color: #19191e; margin-bottom: 4px;">Front-End Go-Live Date (Optional)</label>
-                        <p style="font-size: 9px; color: #777989; margin: 0 0 5px 0; line-height: 1.3;">Accounting go-live will be 2 weeks after this date.</p>
-                        <input type="date" id="calcFrontEndGoLive" style="width: 100%; padding: 7px 9px; font-size: 10px; border: 1px solid #ccc; border-radius: 3px; font-family: Arial, Helvetica, sans-serif; background: #fff; color: #19191e; box-sizing: border-box;">
-                    </div>
+<div class="page">
 
-                    <button id="calcButton" style="width: 100%; padding: 9px; background: #2147f4; color: #fff; border: none; border-radius: 3px; font-size: 11px; font-weight: 600; cursor: pointer; margin-top: 8px; font-family: Arial, Helvetica, sans-serif;">Calculate Timeline</button>
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-chip">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
+      Setup Time Estimator
+    </div>
+    <h1>Accounting Onboarding Calculator</h1>
+    <p class="hero-sub">Get a personalised timeline tailored to your portfolio, team, and working pace.</p>
+  </div>
 
-                    <div id="calcGeneralGuidance" style="background: #f5ede5; border-left: 2px solid #527dff; padding: 10px; border-radius: 3px; margin-top: 10px;">
-                        <div style="font-size: 11px; font-weight: 600; color: #19191e; margin-bottom: 6px;">General Guidance</div>
-                        <ul style="list-style: none; padding: 0; margin: 0;">
-                            <li style="padding: 3px 0; padding-left: 14px; position: relative; color: #4c4d57; font-size: 9px; line-height: 1.3;"><span style="position: absolute; left: 0; color: #527dff; font-weight: 700;">→</span> <strong>~100 properties:</strong> typically 1-2 weeks</li>
-                            <li style="padding: 3px 0; padding-left: 14px; position: relative; color: #4c4d57; font-size: 9px; line-height: 1.3;"><span style="position: absolute; left: 0; color: #527dff; font-weight: 700;">→</span> <strong>500-1,000+ properties:</strong> several weeks</li>
-                            <li style="padding: 3px 0; padding-left: 14px; position: relative; color: #4c4d57; font-size: 9px; line-height: 1.3;"><span style="position: absolute; left: 0; color: #527dff; font-weight: 700;">→</span> <strong>Recommended:</strong> allow a full rent cycle</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+  <!-- CARD 1 — Portfolio -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="16" height="13" rx="2"/><path d="M6 4V3M14 4V3M2 9h16"/></svg>
+      </div>
+      <div>
+        <div class="card-title">Your Portfolio</div>
+        <div class="card-sub">Number of tenancies to migrate</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="note-box">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2a8 8 0 100 16A8 8 0 0010 2zm0 4v4m0 4h.01"/></svg>
+        <p><strong>Note:</strong> this estimate covers accounting setup only — load your tenancies into Street <em>before</em> starting the accounting onboarding phase.</p>
+      </div>
+      <div class="field">
+        <label class="field-label" for="propertyCount">Managed / Rent Collection Tenancies</label>
+        <span class="field-hint">Total active tenancies you'll be migrating</span>
+        <input type="number" id="propertyCount" placeholder="e.g. 250" min="1">
+      </div>
+    </div>
+  </div>
 
-            <!-- Right Column -->
-            <div style="flex: 0 0 540px; overflow-y: auto;">
-                <div id="calcResults" style="display: none;">
-                    <div style="background: linear-gradient(135deg, #527dff 0%, #7a9cff 100%); padding: 12px; border-radius: 3px; color: #fff; text-align: center; margin-bottom: 10px;">
-                        <div style="font-size: 8px; font-weight: 600; opacity: 0.85; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px;">Suggested Go-Live Date</div>
-                        <div id="calcGoLiveDate" style="font-size: 14px; font-weight: 700; margin-bottom: 3px; line-height: 1.2;">-</div>
-                        <div id="calcGoLiveDescription" style="font-size: 8px; opacity: 0.85; margin-bottom: 8px; line-height: 1.3;">Based on starting today</div>
-                        <a href="https://info.street.co.uk/meetings/amy-dawber/street-accounting-opening-balances-suspense-account-setup" target="_blank" style="display: inline-block; padding: 6px 14px; background: #fff; color: #2147f4; text-decoration: none; border-radius: 3px; font-weight: 600; font-size: 9px;">Book Opening Balance Call</a>
-                    </div>
-
-                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 10px;">
-                        <div style="background: linear-gradient(135deg, #f1c238 0%, #f6be9d 100%); padding: 10px; border-radius: 3px; color: #19191e;">
-                            <div style="font-size: 7px; font-weight: 600; opacity: 0.85; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.3px;">Recommended Timeline</div>
-                            <div id="calcRecommendedDays" style="font-size: 18px; font-weight: 700; margin-bottom: 2px; line-height: 1.1;">-</div>
-                            <div style="font-size: 8px; opacity: 0.8; line-height: 1.2;">days total</div>
-                        </div>
-                        <div style="background: linear-gradient(135deg, #2147f4 0%, #527dff 100%); padding: 10px; border-radius: 3px; color: #fff;">
-                            <div style="font-size: 7px; font-weight: 600; opacity: 0.85; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.3px;">Setup Time</div>
-                            <div id="calcTotalHours" style="font-size: 18px; font-weight: 700; margin-bottom: 2px; line-height: 1.1;">-</div>
-                            <div style="font-size: 8px; opacity: 0.8; line-height: 1.2;">hours required</div>
-                        </div>
-                        <div style="background: linear-gradient(135deg, #beffd8 0%, #bde4b9 100%); padding: 10px; border-radius: 3px; color: #19191e;">
-                            <div style="font-size: 7px; font-weight: 600; opacity: 0.85; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.3px;">Working Days</div>
-                            <div id="calcWorkingDays" style="font-size: 18px; font-weight: 700; margin-bottom: 2px; line-height: 1.1;">-</div>
-                            <div style="font-size: 8px; opacity: 0.8; line-height: 1.2;">8-hour days</div>
-                        </div>
-                        <div style="background: linear-gradient(135deg, #7a9cff 0%, #a3baff 100%); padding: 10px; border-radius: 3px; color: #19191e;">
-                            <div style="font-size: 7px; font-weight: 600; opacity: 0.85; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.3px;">Training Period</div>
-                            <div style="font-size: 18px; font-weight: 700; margin-bottom: 2px; line-height: 1.1;">14</div>
-                            <div style="font-size: 8px; opacity: 0.8; line-height: 1.2;">days in demo</div>
-                        </div>
-                    </div>
-
-                    <div style="padding: 10px; background: #fde8eb; border-radius: 3px; border: 1px solid #f9b4bc;">
-                        <div style="font-size: 11px; font-weight: 600; color: #19191e; margin-bottom: 6px; display: flex; align-items: center; gap: 4px;">
-                            <span>📊</span>
-                            <span>Your Breakdown</span>
-                        </div>
-                        <div id="calcBreakdownText" style="color: #4c4d57; line-height: 1.4; font-size: 9px;"></div>
-                    </div>
-                </div>
-            </div>
+  <!-- CARD 2 — Demo timing -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h12M4 10h8M4 14h6"/></svg>
+      </div>
+      <div>
+        <div class="card-title">Demo Account Practice Speed</div>
+        <div class="card-sub">How fast are you adding properties?</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="field">
+        <label class="field-label" for="minsPerProp">Average minutes per property in the demo</label>
+        <span class="field-hint">Based on your last practice session. Not started yet? Use <strong>20 minutes</strong> as a default.</span>
+        <div class="input-wrap has-suffix">
+          <input type="number" id="minsPerProp" placeholder="e.g. 20" min="1" max="120">
+          <span class="unit-suffix">min</span>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 3 — Team capacity -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="3"/><path d="M1 17c0-3.3 2.7-6 6-6h.5M13 11a3 3 0 110-6 3 3 0 010 6zm0 0v7m-3-3h6"/></svg>
+      </div>
+      <div>
+        <div class="card-title">Your Team's Capacity</div>
+        <div class="card-sub">People and hours available for onboarding</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="input-grid">
+        <div class="field">
+          <label class="field-label" for="staffCount">Staff members</label>
+          <span class="field-hint">People entering data</span>
+          <div class="input-wrap has-prefix">
+            <span class="unit-prefix">
+              <svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10" cy="7" r="3"/><path d="M3 18c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg>
+            </span>
+            <input type="number" id="staffCount" placeholder="e.g. 2" min="1" max="50">
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label" for="hoursPerDay">Hours per day</label>
+          <span class="field-hint">Per person, realistically</span>
+          <div class="input-wrap has-suffix">
+            <input type="number" id="hoursPerDay" placeholder="e.g. 3" min="0.5" max="8" step="0.5">
+            <span class="unit-suffix">hrs</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 4 — Optional date -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h14M8 3v2m4-2v2M3 9h14v9a1 1 0 01-1 1H4a1 1 0 01-1-1V9z"/></svg>
+      </div>
+      <div>
+        <div class="card-title">Front-End Go-Live <span class="optional-chip">Optional</span></div>
+        <div class="card-sub">Accounting go-live set 2 weeks after this</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="field">
+        <label class="field-label" for="frontEndGoLive">Scheduled Street front-end go-live date</label>
+        <span class="field-hint">Leave blank to estimate from today</span>
+        <input type="date" id="frontEndGoLive">
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-row">
+    <button class="btn-primary" onclick="calculate()">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h12v12H4V4zm4 4h4m-4 4h4m-4-8v8"/></svg>
+      Calculate My Timeline
+    </button>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="divider"></div>
+
+    <div class="breakdown-card">
+      <div class="breakdown-title">
+        <svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l3 3"/></svg>
+        Your Personalised Breakdown
+      </div>
+      <div class="breakdown-body" id="breakdownText"></div>
     </div>
 
-    <script>
-        (function() {
-            function calculateTime() {
-                var propertyCount = parseInt(document.getElementById('calcPropertyCount').value);
-                
-                if (!propertyCount || propertyCount < 1) {
-                    alert('Please enter a valid number of properties');
-                    return;
-                }
+    <div class="timeline">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-label">Demo Training</div>
+        <div class="step-val">14 days</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-label">Data Entry</div>
+        <div class="step-val" id="s2">—</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-label">Buffer</div>
+        <div class="step-val">7 days</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-label">Total</div>
+        <div class="step-val" id="s4">—</div>
+      </div>
+    </div>
 
-                var MINUTES_PER_PROPERTY = 20;
-                var HOURS_PER_DAY = 8;
-                var TRAINING_DAYS = 14;
-                
-                var totalMinutes = propertyCount * MINUTES_PER_PROPERTY;
-                var totalHours = Math.round(totalMinutes / 60);
-                var workingDays = Math.round(totalHours / HOURS_PER_DAY);
-                var bufferDays = 7;
-                var recommendedDays = workingDays + TRAINING_DAYS + bufferDays;
+    <div class="kpi-grid">
+      <div class="kpi accent">
+        <div class="kpi-label">Recommended Timeline</div>
+        <div class="kpi-value" id="kpiDays">—</div>
+        <div class="kpi-desc">working days total</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Total Work Required</div>
+        <div class="kpi-value" id="kpiHours">—</div>
+        <div class="kpi-desc">hours of setup work</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Daily Team Capacity</div>
+        <div class="kpi-value" id="kpiCapacity">—</div>
+        <div class="kpi-desc">hrs/day across team</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Time Per Property</div>
+        <div class="kpi-value" id="kpiMins">—</div>
+        <div class="kpi-desc">minutes (your estimate)</div>
+      </div>
+    </div>
 
-                var standardGoLiveDate = addBusinessDays(new Date(), recommendedDays);
-                
-                var frontEndInput = document.getElementById('calcFrontEndGoLive').value;
-                var finalGoLiveDate = standardGoLiveDate;
-                var usingFrontEndDate = false;
-                
-                if (frontEndInput) {
-                    var frontEndDate = new Date(frontEndInput + 'T00:00:00');
-                    var today = new Date();
-                    today.setHours(0, 0, 0, 0);
-                    
-                    if (frontEndDate >= today) {
-                        var accountingGoLive = addBusinessDays(frontEndDate, 10);
-                        
-                        if (accountingGoLive > standardGoLiveDate) {
-                            finalGoLiveDate = accountingGoLive;
-                            usingFrontEndDate = true;
-                        }
-                    }
-                }
-                
-                var formattedDate = formatDate(finalGoLiveDate);
+    <div class="go-live">
+      <div class="go-live-chip">Suggested Accounting Go-Live</div>
+      <div class="go-live-date" id="goLiveDate">—</div>
+      <div class="go-live-note" id="goLiveNote">Based on your inputs, starting today</div>
+      <a href="https://info.street.co.uk/meetings/amy-dawber/street-accounting-opening-balances-suspense-account-setup" target="_blank" class="btn-book">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="14" height="13" rx="2"/><path d="M7 2v3m6-3v3M3 9h14"/></svg>
+        Book Opening Balance Call
+      </a>
+    </div>
+  </div>
 
-                document.getElementById('calcTotalHours').textContent = totalHours;
-                document.getElementById('calcWorkingDays').textContent = workingDays;
-                document.getElementById('calcRecommendedDays').textContent = recommendedDays;
-                document.getElementById('calcGoLiveDate').textContent = formattedDate;
+</div>
 
-                var goLiveDesc = document.getElementById('calcGoLiveDescription');
-                if (usingFrontEndDate) {
-                    goLiveDesc.textContent = '2 weeks after front-end go-live';
-                } else {
-                    goLiveDesc.textContent = 'Based on starting today';
-                }
+<script>
+function addBizDays(date, n) {
+  let d = new Date(date), added = 0;
+  while (added < n) { d.setDate(d.getDate() + 1); if (d.getDay() !== 0 && d.getDay() !== 6) added++; }
+  return d;
+}
+function fmtDate(d) {
+  const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const day = d.getDate();
+  const suf = day>3&&day<21?'th':['th','st','nd','rd'][day%10]||'th';
+  return `${days[d.getDay()]}, ${day}${suf} ${months[d.getMonth()]} ${d.getFullYear()}`;
+}
 
-                var sizeCategory = '';
-                var timelineAdvice = '';
-                
-                if (propertyCount <= 150) {
-                    sizeCategory = 'small to medium';
-                    timelineAdvice = 'most agents complete setup in 1-2 weeks (plus training)';
-                } else if (propertyCount <= 500) {
-                    sizeCategory = 'medium to large';
-                    timelineAdvice = 'most agents complete setup in 2-4 weeks (plus training)';
-                } else {
-                    sizeCategory = 'large';
-                    timelineAdvice = 'most agents need several weeks to a month (plus training)';
-                }
+function calculate() {
+  const props = parseInt(document.getElementById('propertyCount').value);
+  const mins  = parseFloat(document.getElementById('minsPerProp').value);
+  const staff = parseInt(document.getElementById('staffCount').value);
+  const hpd   = parseFloat(document.getElementById('hoursPerDay').value);
 
-                var breakdownText = '<strong>' + propertyCount + ' tenancies</strong> × <strong>' + MINUTES_PER_PROPERTY + ' min</strong> = <strong>' + totalHours + ' hours</strong> (~<strong>' + workingDays + ' working days</strong>).<br><br>As a <strong>' + sizeCategory + ' agent</strong>, you\'ll need <strong>14 days training</strong> in demo. With daily workload, we suggest <strong>' + recommendedDays + ' working days total</strong>.<br><br>' + timelineAdvice;
-                
-                if (usingFrontEndDate) {
-                    breakdownText += '<br><br><strong>Note:</strong> Accounting go-live scheduled 2 weeks after front-end date.';
-                }
+  if (!props||props<1)  { alert('Please enter your number of tenancies.'); return; }
+  if (!mins||mins<1)    { alert('Please enter your average time per property.'); return; }
+  if (!staff||staff<1)  { alert('Please enter how many staff will be working on onboarding.'); return; }
+  if (!hpd||hpd<0.5)   { alert('Please enter daily hours per staff member.'); return; }
 
-                document.getElementById('calcBreakdownText').innerHTML = breakdownText;
-                document.getElementById('calcGeneralGuidance').style.display = 'none';
-                document.getElementById('calcResults').style.display = 'block';
-            }
+  const TRAINING=14, BUFFER=7;
+  const totalHours   = Math.round((props * mins) / 60);
+  const dailyCap     = staff * hpd;
+  const dataEntryDays= Math.ceil(totalHours / dailyCap);
+  const totalDays    = TRAINING + dataEntryDays + BUFFER;
 
-            function addBusinessDays(date, days) {
-                var currentDate = new Date(date);
-                var addedDays = 0;
-                
-                while (addedDays < days) {
-                    currentDate.setDate(currentDate.getDate() + 1);
-                    if (currentDate.getDay() !== 0 && currentDate.getDay() !== 6) {
-                        addedDays++;
-                    }
-                }
-                
-                return currentDate;
-            }
+  const feVal = document.getElementById('frontEndGoLive').value;
+  let usingFE = false, feDate;
+  if (feVal) {
+    feDate = new Date(feVal + 'T00:00:00');
+    if (feDate >= new Date()) usingFE = true;
+  }
+  const stdGoLive = addBizDays(new Date(), totalDays);
+  const feGoLive  = usingFE ? addBizDays(feDate, 10) : null;
+  const finalDate = feGoLive && feGoLive > stdGoLive ? feGoLive : stdGoLive;
 
-            function formatDate(date) {
-                var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-                var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-                
-                var dayName = days[date.getDay()];
-                var day = date.getDate();
-                var month = months[date.getMonth()];
-                var year = date.getFullYear();
-                
-                function suffix(d) {
-                    if (d > 3 && d < 21) return 'th';
-                    switch (d % 10) {
-                        case 1: return 'st';
-                        case 2: return 'nd';
-                        case 3: return 'rd';
-                        default: return 'th';
-                    }
-                }
-                
-                return dayName + ', ' + day + suffix(day) + ' ' + month + ' ' + year;
-            }
+  document.getElementById('kpiDays').textContent    = totalDays;
+  document.getElementById('kpiHours').textContent   = totalHours;
+  document.getElementById('kpiCapacity').textContent= dailyCap%1===0 ? dailyCap : dailyCap.toFixed(1);
+  document.getElementById('kpiMins').textContent    = mins;
+  document.getElementById('s2').textContent = dataEntryDays + ' days';
+  document.getElementById('s4').textContent = totalDays + ' days';
+  document.getElementById('goLiveDate').textContent = fmtDate(finalDate);
+  document.getElementById('goLiveNote').textContent = usingFE && feGoLive > stdGoLive
+    ? `2 working weeks after your Street front-end date`
+    : 'Based on your inputs, starting from today';
 
-            document.getElementById('calcButton').addEventListener('click', calculateTime);
-            
-            document.getElementById('calcPropertyCount').addEventListener('keypress', function(event) {
-                if (event.key === 'Enter') {
-                    calculateTime();
-                }
-            });
-        })();
-    </script>
+  const size = props<=150?'small':props<=500?'medium':'large';
+  const bench = props<=150?'1–2 weeks':props<=500?'2–4 weeks':'several weeks to a month';
+  document.getElementById('breakdownText').innerHTML =
+    `<strong>${props} tenancies</strong> × ${mins} min = <strong>${totalHours} hrs</strong> total work. ` +
+    `<strong>${staff} staff</strong> at <strong>${hpd} hrs/day</strong> = <strong>${dailyCap%1===0?dailyCap:dailyCap.toFixed(1)} hrs/day</strong> capacity — ` +
+    `data entry takes ~<strong>${dataEntryDays} day${dataEntryDays!==1?'s':''}</strong>. ` +
+    `Adding training (14 days) and buffer (7 days) gives <strong>${totalDays} working days</strong> total. ` +
+    `As a <strong>${size}-portfolio agent</strong>, similar clients finish in ${bench} (excl. training).` +
+    (usingFE && feGoLive > stdGoLive
+      ? ` Accounting go-live pushed to <strong>2 weeks after your front-end date</strong>.`
+      : '');
+
+  const r = document.getElementById('results');
+  r.style.display = 'block';
+  r.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+['propertyCount','minsPerProp','staffCount','hoursPerDay'].forEach(id => {
+  document.getElementById(id).addEventListener('keydown', e => { if (e.key==='Enter') calculate(); });
+});
+</script>
 </body>
 </html>
